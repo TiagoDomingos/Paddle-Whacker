@@ -341,59 +341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9642ff0266a49474fa67d90e1a2f2784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &883597673
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 883597674}
-  - component: {fileID: 883597675}
-  m_Layer: 0
-  m_Name: MainMenuManager
-  m_TagString: Scripter
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
---- !u!4 &883597674
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883597673}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &883597675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883597673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 947f5d3659532d244a2b55f9ecbd5140, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startButton: {fileID: 654611497}
-  settingsButton: {fileID: 1250114576}
-  aboutButton: {fileID: 149932780}
-  quitButton: {fileID: 2485890}
-  mainMenuPanelController: {fileID: 1678574996}
-  tagsOfButtonsToHideWhenPanelIsOpen:
-  - Button
-  - Label
-  tagsOfLabelsToHideWhenPanelIsOpen:
-  - Subtitle
 --- !u!1001 &930906539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -557,6 +504,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1260056539 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2601689950958128432, guid: bd5fe3fce5f28454f807f37b0daed415,
+    type: 3}
+  m_PrefabInstance: {fileID: 4480506760893626468}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1304374997 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5082345569953656210, guid: d39af4927c82c9a4e8acc193e6e881dc,
+    type: 3}
+  m_PrefabInstance: {fileID: 6213646412801906796}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1305376135
@@ -891,7 +862,7 @@ GameObject:
   - component: {fileID: 1678574996}
   m_Layer: 5
   m_Name: Submenu
-  m_TagString: Menu
+  m_TagString: Panel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -937,6 +908,8 @@ MonoBehaviour:
   numberOfGoalsSetting: {fileID: 2092447414}
   soundVolumeSetting: {fileID: 221111967}
   musicVolumeSetting: {fileID: 832823097}
+  startButtonTag: ContinueButton
+  cancelButtonTag: CancelButton
 --- !u!1001 &1707219736
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1230,6 +1203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 580242444010156195}
+  - component: {fileID: 580242444010156199}
   - component: {fileID: 580242444010156194}
   - component: {fileID: 580242444010156193}
   - component: {fileID: 580242444010156192}
@@ -1240,6 +1214,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &580242444010156199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580242444010156198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947f5d3659532d244a2b55f9ecbd5140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: {fileID: 1260056539}
+  subtitle: {fileID: 1304374997}
+  buttonPanel: {fileID: 1125484228}
+  mainMenuPanelController: {fileID: 1678574996}
+  startButton: {fileID: 654611497}
+  settingsButton: {fileID: 1250114576}
+  aboutButton: {fileID: 149932780}
+  quitButton: {fileID: 2485890}
 --- !u!1 &1098113354629006298 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5040701810079079401, guid: 6b1e4d00147fb6e448f3dcc8c6f5658a,

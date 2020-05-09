@@ -27,6 +27,8 @@ TagManager:
   - Audio
   - Camera
   - ButtonText
+  - Panel
+  - Hud
   layers:
   - Default
   - TransparentFX

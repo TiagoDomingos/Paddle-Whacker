@@ -9,7 +9,7 @@ public static class ObjectUtils
 {
     private static bool IsMatchingCriteria(Transform transform, bool includeInactive, params string[] tags)
     {
-        if (transform == null || (includeInactive || (!includeInactive && transform.gameObject.activeSelf)))
+        if (transform == null || (!includeInactive && !transform.gameObject.activeSelf))
         {
             return false;
         }
@@ -22,6 +22,18 @@ public static class ObjectUtils
             }
         }
         return false;
+    }
+
+    // note: only fetches active gameObjects
+    // warning: similar to find, this gets all objects, s
+    public static List<GameObject> FindAllObjectsWithTags(params string[] tags)
+    {
+        var objects = new List<GameObject>();
+        foreach (string tag in tags)
+        {
+            objects.AddRange(GameObject.FindGameObjectsWithTag(tag));
+        }
+        return objects;
     }
 
     public static GameObject GetChildWithTag(GameObject parent, string tag, bool includeInactive=false)

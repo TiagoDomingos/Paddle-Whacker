@@ -8,30 +8,32 @@ public class IngameMenuController : MonoBehaviour
     [SerializeField] private GameObject ingameMenu = default;
     [SerializeField] private TMPro.TextMeshProUGUI title    = default;
     [SerializeField] private TMPro.TextMeshProUGUI subtitle = default;
+
+    [Header("Menu Buttons")]
     [SerializeField] private Button resumeButton   = default;
     [SerializeField] private Button mainMenuButton = default;
     [SerializeField] private Button restartButton  = default;
     [SerializeField] private Button quitButton     = default;
 
-    private List<Button> buttonsToHideWhenActive;
-    private List<TMPro.TextMeshProUGUI> labelsToHideWhenActive;
-    private List<SpriteRenderer> spritesToHideWhenActive;
-    [TagSelector] [SerializeField] private string[] tagsOfButtonsToHideOnMenuOpen = new string[] { };
-    [TagSelector] [SerializeField] private string[] tagsOfLabelsToHideOnMenuOpen  = new string[] { };
-    [TagSelector] [SerializeField] private string[] tagsOfSpritesToHideOnMenuOpen = new string[] { };
+    [Header("GameObjects to Hide on Menu Open")]
+    [SerializeField] private GameObject hud = default;
+    [SerializeField] private GameObject movingObjects = default;
 
     void Awake()
     {
-        ingameMenu.SetActive(false);  // ensures that the fetched objects are OUTSIDE the ingame menu
-        buttonsToHideWhenActive = GameObjectUtils.FindAllObjectsWithTags<Button>(tagsOfButtonsToHideOnMenuOpen);
-        labelsToHideWhenActive  = GameObjectUtils.FindAllObjectsWithTags<TMPro.TextMeshProUGUI>(tagsOfLabelsToHideOnMenuOpen);
-        spritesToHideWhenActive = GameObjectUtils.FindAllObjectsWithTags<SpriteRenderer>(tagsOfSpritesToHideOnMenuOpen);
+        if (ReferenceEquals(gameObject, ingameMenu))
+        {
+            Debug.LogError($"Controller {GetType().Name} should not be attached to its corresponding menu object, " +
+                           $"as it is always running in the game scene, " +
+                           $"and needs to be able to deactivate the menu object");
+        }
+        ingameMenu.SetActive(false);
 
         GameEventCenter.pauseGame.AddListener(OpenAsPauseMenu);
         GameEventCenter.winningScoreReached.AddListener(OpenAsEndGameMenu);
 
         #if UNITY_WEBGL
-            GameObjectUtils.SetButtonActiveAndEnabled(quitButton, false);
+            UiUtils.SetButtonActiveAndEnabled(quitButton, false);
         #endif
     }
     void OnDestroy()
@@ -56,24 +58,22 @@ public class IngameMenuController : MonoBehaviour
     }
     private void ToggleMenuVisibility(bool isVisible)
     {
-        Time.timeScale = isVisible? 0 : 1;
-        ingameMenu.SetActive(isVisible);
-
-        bool hideBackground = !isVisible;
-        for (int i = 0; i < buttonsToHideWhenActive.Count; i++)
+        if (isVisible)
         {
-            GameObjectUtils.SetButtonVisibility(buttonsToHideWhenActive[i], hideBackground);
+            Time.timeScale = 0;
+            ingameMenu.SetActive(true);
+            hud.SetActive(false);
+            movingObjects.SetActive(false);
         }
-        for (int i = 0; i < labelsToHideWhenActive.Count; i++)
+        else
         {
-            GameObjectUtils.SetLabelVisibility(labelsToHideWhenActive[i], hideBackground);
-        }
-        for (int i = 0; i < spritesToHideWhenActive.Count; i++)
-        {
-            GameObjectUtils.SetSpriteVisibility(spritesToHideWhenActive[i], hideBackground);
+            Time.timeScale = 1;
+            ingameMenu.SetActive(false);
+            hud.SetActive(true);
+            movingObjects.SetActive(true);
         }
         #if UNITY_WEBGL
-            GameObjectUtils.SetButtonActiveAndEnabled(quitButton, false);
+            UiUtils.SetButtonActiveAndEnabled(quitButton, false);
         #endif
     }
 
@@ -82,7 +82,7 @@ public class IngameMenuController : MonoBehaviour
         title.text    = "Game Paused";
         subtitle.text = recordedScore.LeftPlayerScore.ToString() + " - " + recordedScore.RightPlayerScore.ToString();
 
-        GameObjectUtils.SetButtonActiveAndEnabled(resumeButton, true);
+        UiUtils.SetButtonActiveAndEnabled(resumeButton, true);
         ToggleMenuVisibility(true);
     }
     private void OpenAsEndGameMenu(RecordedScore recordedScore)
@@ -95,7 +95,7 @@ public class IngameMenuController : MonoBehaviour
         title.text    = recordedScore.IsLeftPlayerWinning() ? "Game Won" : "Game Lost";
         subtitle.text = recordedScore.LeftPlayerScore.ToString() + " - " + recordedScore.RightPlayerScore.ToString();
 
-        GameObjectUtils.SetButtonActiveAndEnabled(resumeButton, false);
+        UiUtils.SetButtonActiveAndEnabled(resumeButton, false);
         ToggleMenuVisibility(true);
     }
 
@@ -112,7 +112,7 @@ public class IngameMenuController : MonoBehaviour
     }
     private void TriggerRestartGameEvent()
     {
-        GameEventCenter.restartGame.Trigger("Restarting game");
         ToggleMenuVisibility(false);
+        GameEventCenter.restartGame.Trigger("Restarting game");
     }
 }
