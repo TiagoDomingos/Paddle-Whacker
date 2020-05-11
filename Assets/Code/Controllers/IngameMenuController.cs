@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 
 public class IngameMenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject ingameMenu = default;
     [SerializeField] private TMPro.TextMeshProUGUI title    = default;
     [SerializeField] private TMPro.TextMeshProUGUI subtitle = default;
 
@@ -14,31 +14,36 @@ public class IngameMenuController : MonoBehaviour
     [SerializeField] private Button restartButton  = default;
     [SerializeField] private Button quitButton     = default;
 
-    [Header("GameObjects to Hide on Menu Open")]
-    [SerializeField] private GameObject hud = default;
-    [SerializeField] private GameObject movingObjects = default;
+    private Action actionOnMenuOpen;
+    private Action actionOnMenuClose;
+
+    public void SetActionOnMenuOpen(Action actionOnMenuOpen)   { this.actionOnMenuOpen  = actionOnMenuOpen;  }
+    public void SetActionOnMenuClose(Action actionOnMenuClose) { this.actionOnMenuClose = actionOnMenuClose; }
+
+    public void OpenAsPauseMenu(RecordedScore recordedScore)
+    {
+        actionOnMenuOpen();
+        gameObject.SetActive(true);
+        UiUtils.SetButtonActiveAndEnabled(resumeButton, true);
+        title.text = "Game Paused";
+        subtitle.text = recordedScore.LeftPlayerScore.ToString() + " - " + recordedScore.RightPlayerScore.ToString();
+    }
+    public void OpenAsEndGameMenu(RecordedScore recordedScore)
+    {
+        actionOnMenuOpen();
+        gameObject.SetActive(true);
+        title.text = recordedScore.IsLeftPlayerWinning() ? "Game Won" : "Game Lost";
+        subtitle.text = recordedScore.LeftPlayerScore.ToString() + " - " + recordedScore.RightPlayerScore.ToString();
+
+        UiUtils.SetButtonActiveAndEnabled(resumeButton, false);
+    }
 
     void Awake()
     {
-        if (ReferenceEquals(gameObject, ingameMenu))
-        {
-            Debug.LogError($"Controller {GetType().Name} should not be attached to its corresponding menu object, " +
-                           $"as it is always running in the game scene, " +
-                           $"and needs to be able to deactivate the menu object");
-        }
-        ingameMenu.SetActive(false);
-
-        GameEventCenter.pauseGame.AddListener(OpenAsPauseMenu);
-        GameEventCenter.winningScoreReached.AddListener(OpenAsEndGameMenu);
-
+        gameObject.SetActive(false);
         #if UNITY_WEBGL
             UiUtils.SetButtonActiveAndEnabled(quitButton, false);
         #endif
-    }
-    void OnDestroy()
-    {
-        GameEventCenter.pauseGame.RemoveListener(OpenAsPauseMenu);
-        GameEventCenter.winningScoreReached.RemoveListener(OpenAsEndGameMenu);
     }
 
     void OnEnable()
@@ -55,63 +60,23 @@ public class IngameMenuController : MonoBehaviour
         restartButton.onClick.RemoveListener(TriggerRestartGameEvent);
         quitButton.onClick.RemoveListener(SceneUtils.QuitGame);
     }
-    private void ToggleMenuVisibility(bool isVisible)
-    {
-        if (isVisible)
-        {
-            Time.timeScale = 0;
-            ingameMenu.SetActive(true);
-            hud.SetActive(false);
-            movingObjects.SetActive(false);
-        }
-        else
-        {
-            Time.timeScale = 1;
-            ingameMenu.SetActive(false);
-            hud.SetActive(true);
-            movingObjects.SetActive(true);
-        }
-        #if UNITY_WEBGL
-            UiUtils.SetButtonActiveAndEnabled(quitButton, false);
-        #endif
-    }
-
-    private void OpenAsPauseMenu(RecordedScore recordedScore)
-    {
-        title.text    = "Game Paused";
-        subtitle.text = recordedScore.LeftPlayerScore.ToString() + " - " + recordedScore.RightPlayerScore.ToString();
-
-        UiUtils.SetButtonActiveAndEnabled(resumeButton, true);
-        ToggleMenuVisibility(true);
-    }
-    private void OpenAsEndGameMenu(RecordedScore recordedScore)
-    {
-        if (!recordedScore.IsWinningScoreReached())
-        {
-            Debug.LogError($"Opening ingame menu as triggered by event `WinningScoreReached`, " +
-                           $"but no players have met or surpassed the score: {recordedScore}");
-        }
-        title.text    = recordedScore.IsLeftPlayerWinning() ? "Game Won" : "Game Lost";
-        subtitle.text = recordedScore.LeftPlayerScore.ToString() + " - " + recordedScore.RightPlayerScore.ToString();
-
-        UiUtils.SetButtonActiveAndEnabled(resumeButton, false);
-        ToggleMenuVisibility(true);
-    }
 
     private void ResumeGame()
     {
+        Time.timeScale = 1;
         GameEventCenter.resumeGame.Trigger("Resuming game");
-        ToggleMenuVisibility(false);
+        actionOnMenuClose();
     }
     private void MoveToMainMenu()
     {
-        GameEventCenter.gotoMainMenu.Trigger("Opening main menu");
         Time.timeScale = 1;
+        GameEventCenter.gotoMainMenu.Trigger("Opening main menu");
         SceneUtils.LoadScene("MainMenu");
+        actionOnMenuClose();
     }
     private void TriggerRestartGameEvent()
     {
-        ToggleMenuVisibility(false);
+        Time.timeScale = 1;
         GameEventCenter.restartGame.Trigger("Restarting game");
     }
 }

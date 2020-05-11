@@ -8,10 +8,6 @@ using UnityEngine.UI;
 // - all panels have a back button, and some may have a continue button
 public class MainMenuPanelController : MonoBehaviour
 {
-    private Action actionOnStartPress;
-    private Action actionOnPanelOpen;
-    private Action actionOnPanelClose;
-
     [Header("Sub-panels")]
     [SerializeField] private GameObject startPanel    = default;
     [SerializeField] private GameObject settingsPanel = default;
@@ -25,6 +21,10 @@ public class MainMenuPanelController : MonoBehaviour
 
     [SerializeField] [TagSelector] private string startButtonTag  = default;
     [SerializeField] [TagSelector] private string cancelButtonTag = default;
+
+    private Action actionOnStartPress;
+    private Action actionOnPanelOpen;
+    private Action actionOnPanelClose;
 
     void OnEnable()
     {
