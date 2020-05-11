@@ -981,7 +981,8 @@ MonoBehaviour:
   mainMenuButton: {fileID: 2111221937}
   restartButton: {fileID: 2111221936}
   quitButton: {fileID: 2111221935}
-  hud: {fileID: 2111221941}
+  topBanner: {fileID: 0}
+  scoreBanner: {fileID: 0}
   movingObjects: {fileID: 2025176988}
 --- !u!1001 &1891626405
 PrefabInstance:
@@ -1357,6 +1358,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2111221930}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2111221942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111221941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e0074ddd7851b649add1d63a1d0c259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseButton: {fileID: 2111221934}
+  leftScoreLabel: {fileID: 2111221933}
+  rightScoreLabel: {fileID: 2111221932}
 --- !u!1001 &2068292380168901351
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1528,6 +1544,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 5330158991354191735, guid: 328adc502457bea42aae7fb88632a1e3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 5330158991354191755, guid: 328adc502457bea42aae7fb88632a1e3,
         type: 3}
