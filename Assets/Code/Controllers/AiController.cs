@@ -17,7 +17,7 @@ public class AiController : MonoBehaviour
     private float difficultyRatio;
     private float paddleSpeed;
     private float responseTime;
-    private static float DEFAULT_DIFFICULTY_RATIO = 0.5f;
+    private static readonly float DEFAULT_DIFFICULTY_RATIO = 0.5f;
 
     private Rigidbody2D paddleBody;
     private BoxCollider2D paddleCollider;
