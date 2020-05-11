@@ -506,18 +506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1260056539 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2601689950958128432, guid: bd5fe3fce5f28454f807f37b0daed415,
-    type: 3}
-  m_PrefabInstance: {fileID: 4480506760893626468}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1304374997 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5082345569953656210, guid: d39af4927c82c9a4e8acc193e6e881dc,
@@ -1226,7 +1214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947f5d3659532d244a2b55f9ecbd5140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: {fileID: 1260056539}
   subtitle: {fileID: 1304374997}
   buttonPanel: {fileID: 1125484228}
   mainMenuPanelController: {fileID: 1678574996}
@@ -1679,7 +1666,12 @@ PrefabInstance:
     - target: {fileID: 5286118289620823963, guid: 264b980b324a7c04e8e2470d20bf6a0e,
         type: 3}
       propertyPath: m_Name
-      value: MainMenuCamera
+      value: Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 5286118289620823963, guid: 264b980b324a7c04e8e2470d20bf6a0e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 264b980b324a7c04e8e2470d20bf6a0e, type: 3}
