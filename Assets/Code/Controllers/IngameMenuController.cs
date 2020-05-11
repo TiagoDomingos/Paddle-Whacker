@@ -17,8 +17,8 @@ public class IngameMenuController : MonoBehaviour
     private Action actionOnMenuOpen;
     private Action actionOnMenuClose;
 
-    public void SetActionOnMenuOpen(Action actionOnMenuOpen)   { this.actionOnMenuOpen  = actionOnMenuOpen;  }
-    public void SetActionOnMenuClose(Action actionOnMenuClose) { this.actionOnMenuClose = actionOnMenuClose; }
+    public void SetAdditionalActionOnMenuOpen(Action actionOnMenuOpen)   { this.actionOnMenuOpen  = actionOnMenuOpen;  }
+    public void SetAdditionalActionOnMenuClose(Action actionOnMenuClose) { this.actionOnMenuClose = actionOnMenuClose; }
 
     public void OpenAsPauseMenu(RecordedScore recordedScore)
     {
@@ -38,28 +38,6 @@ public class IngameMenuController : MonoBehaviour
         UiUtils.SetButtonActiveAndEnabled(resumeButton, false);
     }
 
-    void Awake()
-    {
-        gameObject.SetActive(false);
-        #if UNITY_WEBGL
-            UiUtils.SetButtonActiveAndEnabled(quitButton, false);
-        #endif
-    }
-
-    void OnEnable()
-    {
-        resumeButton.onClick.AddListener(ResumeGame);
-        mainMenuButton.onClick.AddListener(MoveToMainMenu);
-        restartButton.onClick.AddListener(TriggerRestartGameEvent);
-        quitButton.onClick.AddListener(SceneUtils.QuitGame);
-    }
-    void OnDisable()
-    {
-        resumeButton.onClick.RemoveListener(ResumeGame);
-        mainMenuButton.onClick.RemoveListener(MoveToMainMenu);
-        restartButton.onClick.RemoveListener(TriggerRestartGameEvent);
-        quitButton.onClick.RemoveListener(SceneUtils.QuitGame);
-    }
 
     private void ResumeGame()
     {
@@ -78,5 +56,27 @@ public class IngameMenuController : MonoBehaviour
     {
         Time.timeScale = 1;
         GameEventCenter.restartGame.Trigger("Restarting game");
+    }
+
+    void Awake()
+    {
+        gameObject.SetActive(false);
+        #if UNITY_WEBGL
+            UiUtils.SetButtonActiveAndEnabled(quitButton, false);
+        #endif
+    }
+    void OnEnable()
+    {
+        resumeButton.onClick.AddListener(ResumeGame);
+        mainMenuButton.onClick.AddListener(MoveToMainMenu);
+        restartButton.onClick.AddListener(TriggerRestartGameEvent);
+        quitButton.onClick.AddListener(SceneUtils.QuitGame);
+    }
+    void OnDisable()
+    {
+        resumeButton.onClick.RemoveListener(ResumeGame);
+        mainMenuButton.onClick.RemoveListener(MoveToMainMenu);
+        restartButton.onClick.RemoveListener(TriggerRestartGameEvent);
+        quitButton.onClick.RemoveListener(SceneUtils.QuitGame);
     }
 }

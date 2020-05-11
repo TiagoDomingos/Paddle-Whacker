@@ -7,17 +7,23 @@ public class IngameHudController : MonoBehaviour
     private RecordedScore lastRecordedScore;
 
     [Header("Ingame Menu")]
-    [SerializeField] private IngameMenuController ingameMenu = default;
+    [SerializeField] private IngameMenuController ingameMenuController = default;
+
+    [SerializeField] private GameObject topBanner = default;
+    [SerializeField] private GameObject scoreBanner = default;
 
     [Header("Top Banner")]
-    [SerializeField] private GameObject topBanner = default;
     [SerializeField] private Button pauseButton   = default;
 
     [Header("Score Banner")]
-    [SerializeField] private GameObject scoreBanner = default;
     [SerializeField] private TMPro.TextMeshProUGUI leftScoreLabel  = default;
     [SerializeField] private TMPro.TextMeshProUGUI rightScoreLabel = default;
 
+    void Awake()
+    {
+        ingameMenuController.SetAdditionalActionOnMenuOpen(() => LoadGame());
+        SetAdditionalActionOnMenuOpen();
+    }
     void OnEnable()
     {
         GameEventCenter.scoreChange.AddListener(UpdateScore);
