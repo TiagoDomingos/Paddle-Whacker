@@ -63,7 +63,6 @@ public class MainMenuPanelController : MonoBehaviour
 
         submenuPanel.SetActive(true);
         Button startButton = ObjectUtils.GetComponentInChildWithTag<Button>(submenuPanel, startButtonTag,  true);
-        Button closeButton = ObjectUtils.GetComponentInChildWithTag<Button>(submenuPanel, cancelButtonTag, true);
         if (startButton)
         {
             UiUtils.AddAutoUnsubscribeOnClickListenerToButton(startButton, () =>
@@ -71,6 +70,7 @@ public class MainMenuPanelController : MonoBehaviour
                 actionOnStartPress();
             });
         }
+        Button closeButton = ObjectUtils.GetComponentInChildWithTag<Button>(submenuPanel, cancelButtonTag, true);
         if (closeButton)
         {
             UiUtils.AddAutoUnsubscribeOnClickListenerToButton(closeButton, () =>
