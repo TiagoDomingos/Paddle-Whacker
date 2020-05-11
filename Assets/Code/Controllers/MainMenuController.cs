@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
-    [SerializeField] private TMPro.TextMeshProUGUI title    = default;
     [SerializeField] private TMPro.TextMeshProUGUI subtitle = default;
 
     [SerializeField] private GameObject buttonPanel = default;
